@@ -1,33 +1,50 @@
 # Brendan / SmileBCS - Project Notes
 
 Shared workspace for notes, task lists, and reference material across all active projects.
-Combines both Freelancer threads (ContactLocal/Get It Framed + WordPress Malware Audit & Cleanup).
+Combines all Freelancer threads and work history.
 
 ---
 
-## Kira - AI Receptionist (smilecreative.agency/kira/)
+## Kira - AI Voice Receptionist (smilecreative.agency/kira/)
 
-**Product**: AI-powered virtual receptionist for businesses
+**For**: Smile Creative / Brendan
 **Live demo**: http://smilecreative.agency/kira/
 
 ### What It Does
-- Answers inbound business calls with warm greetings
-- Captures caller information and routes messages to staff
-- Available 24/7 including evenings, weekends, holidays
+- AI-powered virtual receptionist answering inbound business calls
+- Northern Irish receptionist persona
+- Captures caller info and routes messages to staff
+- 24/7 availability including evenings, weekends, holidays
 - Trained on each client's business services, team details, and FAQs
 - Screens out telemarketers and irrelevant sales calls
-- Significantly cheaper than hiring full-time reception staff
 
-### How It Works
-1. Learn business details from client
-2. Build customised agent
-3. Integrate with existing phone system
-4. Deliver caller messages to the team
+### Technical Build
+- Voice agent prompt written and refined for Kira persona
+- SIP/VoIP integration investigated with Soho66 and Retell AI
+- US phone number set up through Retell for inbound calls
+- Backend API endpoint (kira-api.php) creating Retell web calls server-side
+- Custom call widget built with Retell Web SDK (zero Retell branding)
+- Kira's face avatar integrated into widget
+- Transparent Smile Creative logo added
+- Kira_03 hero image as landing page background
+- Sales-oriented landing page with features, how-it-works, and CTA sections
 
-### Live Page Features
-- Branding under Smile Creative
-- "Talk to Kira" live demo with call interface (start/end call buttons)
-- Avatar chat interface showcasing capabilities
+---
+
+## Accountant Quiz AI (accountantbelfast.co.uk)
+
+**For**: Brendan
+**Source**: https://github.com/anirudhatalmale6-alt/accountant-quiz-ai
+
+### Completed
+- Custom WordPress plugin (Accountant Quiz AI) replacing n8n workflow entirely
+- Plugin installed and activated on accountantbelfast.co.uk
+- 11 quiz questions mapped with correct scoring (Q1-Q9 scored 1-4, Q10-Q11 unscored)
+- Contact fields captured from QSM form (first name, surname, phone, email)
+- AI analysis generates 4-paragraph report format (same as original n8n setup)
+- Results display inline on quiz page after submission with animated score bar
+- ResponsiveVoice text-to-speech integration
+- All submissions logged to database (viewable in Settings > Quiz AI in WP admin)
 
 ---
 
@@ -42,12 +59,9 @@ Combines both Freelancer threads (ContactLocal/Get It Framed + WordPress Malware
 - Gallery page live at /framing/gallery.html (grid layout, filter buttons, lightbox)
 - CTA section moved to full-width teal band above Find Us/map section
 - Card titles: sentence case, centred, descriptions centred
-- "Our Services" label set to white
-- "How it Works" section removed
-- Studio Standard section moved below service cards
-- All section margins halved
-- Whole cards clickable, "More" buttons centred
-- Testimonials section removed
+- "Our Services" label set to white, "How it Works" section removed
+- Studio Standard section moved below service cards, all section margins halved
+- Whole cards clickable, "More" buttons centred, testimonials removed
 - Nav links updated: Gallery and Prints pages linked from homepage nav + footer
 
 ### Pending
@@ -55,62 +69,123 @@ Combines both Freelancer threads (ContactLocal/Get It Framed + WordPress Malware
 - Remaining 11 service pages (copy needed from client for each)
 - WordPress conversion (agreed direction - build in static HTML first, convert to WP theme once content finalised)
 - Gallery: next/prev navigation in lightbox (will come with WP gallery plugin)
-- May 12th update review - client said "not all edits implemented", needs follow-up check
 
 ### Design Notes
 - Fonts: Libre Baskerville (headings) + Inter (body)
 - Colours: --teal #048A81, --rose #B5838D, --ink-deep #454851, --paper-bg #F1F2F6
 - Service page template: hero banner (200px), two-column intro, feature cards with images, CTA, footer
-- Base64 logo embedded in HTML (large file ~44KB)
 
 ---
 
 ## ContactLocal (contactlocal.co.uk)
 
 ### Cards Live
-- **DC (Darren Cumberland)**: dc.contactlocal.co.uk - Call Studio (028 2588 2706), Call Mobile (077 6384 2761), Email (obfuscated via JS), Studio address (accordion with "Get directions")
+- **DC (Darren Cumberland)**: dc.contactlocal.co.uk - Call Studio (028 2588 2706), Call Mobile (077 6384 2761), Email (obfuscated via JS), Studio accordion
 - **Kerry's Florist**: kerry.contactlocal.co.uk - reference card for accordion pattern
 
 ### Platform
-- Template 01 uploaded to /templates/01/, embedded as live iframe in hero section on main page
-- ContactLocal-Card-Spec-v1.docx delivered (10-section SOP for future builds)
-- Brendan's avatar embedded in About section (Smile_Creative_Office.jfif)
+- Template 01 uploaded to /templates/01/, embedded as live iframe in hero
+- ContactLocal-Card-Spec-v1.docx delivered (10-section SOP)
+- Brendan's avatar embedded in About section
 
 ### Future Plans
-- Sign-up form (self-service at the 35 GBP price point)
-- Analytics: GA4 on each card, redirect QR codes for scan tracking, AWStats enabled in DirectAdmin
-- Automation/scaling: template engine + database to generate cards automatically
-- Pricing model evolution: one-off 35 GBP vs recurring monthly (e.g. 5 GBP/month)
+- Sign-up form, GA4 analytics, redirect QR codes, automation/scaling
+- Pricing model: one-off 35 GBP vs recurring monthly
 
 ---
 
-## BNI Payment Portal (payment.bninorthernireland.co.uk)
+## BNI Payment Gateway (payment.bninorthernireland.co.uk)
 
-- **Background**: WordPress site previously compromised (malware), cleanup done
-- **Reputation**: pcrisk scan shows Trust Score 35/100, 3 of 92 threat engines flagging
-- **Category label**: "Phishing And Other Frauds" (legacy from compromise period)
-- **Action needed**: Identify the 3 specific flagging engines and submit false positive disputes to each
-- **Timeline**: Reputation databases take 2-6 weeks to update after dispute submission
-- **Client couldn't find**: Dispute submission forms on the 3 flagging engines - needs help locating them
+**For**: Andrew / BNI Northern Ireland
+
+### Malware Cleanup (Completed)
+- 3 spam posts, 4 rogue accounts, Russian spam category removed
+- Backdoor plugin (init-help) removed
+- WP File Manager plugin deleted (was the attack vector)
+- wp-file-manager-pro uploads cleaned
+- Security salts regenerated
+- .htaccess hardened (XML-RPC blocked, PHP in uploads blocked, directory browsing off)
+- Wordfence installed and configured
+- SMTP configured (WP Mail SMTP via cloud.hostnx.uk)
+- DMARC record added for bninorthernireland.co.uk
+- Forminator form email notifications set up (admin to Andrew + Brendan, receipt to submitter)
+
+### Reputation Recovery (Ongoing)
+- pcrisk: Trust Score 35/100, 3 of 92 threat engines still flagging
+- Category label: "Phishing And Other Frauds" (legacy from compromise)
+- Action needed: Identify the 3 specific flagging engines and submit false positive disputes
+- Client couldn't find dispute submission forms - needs help locating them
+
+---
+
+## Eternitywhere.com Migration
+
+**For**: Andrew Dobbin
+
+### Completed
+- Full site migration from StackCP (20i/Omega SYS, shutting down) to DirectAdmin (KeyGrowth server)
+- WordPress files, database, themes, plugins all migrated
+- PHP 5.6 configured for old WordPress install
+- Email account created (andrew@eternitywhere.com) with 10GB quota
+- Email forwarders set up (andrew, gail, stephen)
+- SSL certificate issued via Let's Encrypt
+- DNS records updated at StackCP to point to new server
+
+### AWStats Export (Pending)
+- Goal: Export monthly AWStats reports from StackCP (Jan 2020 to present, ~77 months)
+- Issue: StackCP URLs don't carry month parameter (session-based)
+- Next step: Browser console script to automate save-to-PDF from within AWStats page
+
+---
+
+## TheBusinessMindset.co.uk
+
+**For**: Brendan
+
+### Completed
+- 19 plugin updates + 2 theme updates
+- Mailchimp domain authentication (duplicate DMARC removed)
+
+---
+
+## Hope2Families.com
+
+**For**: Client on Brendan's server
+
+- Verified site exists on DirectAdmin server with full WordPress install
+- cPanel backup restore attempted from Certa hosting
+
+---
+
+## LeadsToGrowth.co.uk
+
+**For**: Brendan
+
+### Completed
+- Removed .maintenance file (cPanel WordPress Toolkit leftover) to bring site live
+- Deleted v2 folder (149MB duplicate WordPress install)
+- Cleaned up cPanel maintenance template files
+- Deleted orphaned database (leadstogrowth_w589)
+
+---
+
+## MySiteHost Server Audit (91.238.160.248)
+
+**For**: Brendan
+
+### Completed
+- Full audit of 47 cPanel accounts
+- Identified 21 to keep, 26 to delete
+- Identified 3 accounts still pointing to server with live sites
+- Identified email delivery interception issues (keygrowth.co.uk and smileprinting.co.uk)
 
 ---
 
 ## Dougans Furniture (dougansfurniture.com)
 
-- **Status**: Site down (HTTP 500 error), hosted on 123-reg shared hosting
-- **Domain**: Registered since 2012, expires June 28 2026
-- **Outreach**: Brendan contacted Jenna alongside a print job - she responded saying they have someone tasked to sort it
-- **Decision**: Not pushing further. Seed planted, door open for future
-
----
-
-## AWStats Export (Eternitywhere from StackCP)
-
-- **Goal**: Export monthly AWStats reports from StackCP before migration (Jan 2020 to present, ~77 months)
-- **Issue**: StackCP AWStats URLs don't carry month parameter - month selection is session/cookie based, so generated URLs all load the same page
-- **AWStats helper page**: Delivered (awstats-export.html) but URLs won't work per-month
-- **Next step**: Browser console script to automate save-to-PDF from within the AWStats page
-- **DirectAdmin AWStats**: Now enabled for account "kgrowth" (confirmed by hosting support)
+- Site down (HTTP 500), 123-reg hosting, domain expires June 28 2026
+- Brendan contacted Jenna - they have someone on it
+- Not pushing further. Seed planted.
 
 ---
 
@@ -122,13 +197,14 @@ Combines both Freelancer threads (ContactLocal/Get It Framed + WordPress Malware
 | ContactLocal main | FTP: anirudhat@contactlocal.co.uk |
 | DC subdomain | FTP: DC@contactlocal.co.uk (docroot: /public_html/) |
 | DirectAdmin hosting | AWStats enabled, account "kgrowth" |
+| MySiteHost server | 91.238.160.248 (47 cPanel accounts audited) |
 | StackCP | Eternitywhere stats access (pre-migration) |
 
 ---
 
 ## Communication
 - Primary: Freelancer.com messaging
-- Reference: This GitHub page (https://github.com/anirudhatalmale6-alt/smilebcs-project-notes)
+- Reference: This GitHub page
 - No email/phone available from developer side
 
 ---
