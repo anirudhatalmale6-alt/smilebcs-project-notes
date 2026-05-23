@@ -138,6 +138,21 @@ Combines all Freelancer threads and work history.
 
 ---
 
+## Logan's Removals (logansremovals.co.uk)
+
+**For**: Logan's Removals (via Brendan)
+
+### Completed - Volume Calculator & Quote System
+- Full item list integrated across 7 rooms: Living Room (55), Dining Room (10), Kitchen (16), Bedrooms (25), Office/Study (17), Garage & Garden (42), Cartons & Misc (5)
+- Vehicle suggestions based on cubic volume: Small Van, Transit Van, Luton Van, 7.5t Truck, 14t Truck, Two vehicles
+- AJAX email submission to logansremovals@hotmail.co.uk with formatted HTML (item breakdown, contact details, move details, volumes)
+- WP admin panel: Logan's Quotes page showing all submissions in table with "View Details"
+- Validation: UK postcode, required fields, email format, minimum 1 item
+- 10 additional services: full/partial packing, unpacking, dismantling, short/long-term storage, insurance upgrade, specialist items, office moves, cross-channel
+- Code in two WP Code Snippets: Snippet 7 (front-end shortcode), Snippet 8 (AJAX handler, email, admin page)
+
+---
+
 ## TheBusinessMindset.co.uk
 
 **For**: Brendan
