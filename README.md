@@ -5,6 +5,32 @@ Combines both Freelancer threads (ContactLocal/Get It Framed + WordPress Malware
 
 ---
 
+## Kira - AI Receptionist (smilecreative.agency/kira/)
+
+**Product**: AI-powered virtual receptionist for businesses
+**Live demo**: http://smilecreative.agency/kira/
+
+### What It Does
+- Answers inbound business calls with warm greetings
+- Captures caller information and routes messages to staff
+- Available 24/7 including evenings, weekends, holidays
+- Trained on each client's business services, team details, and FAQs
+- Screens out telemarketers and irrelevant sales calls
+- Significantly cheaper than hiring full-time reception staff
+
+### How It Works
+1. Learn business details from client
+2. Build customised agent
+3. Integrate with existing phone system
+4. Deliver caller messages to the team
+
+### Live Page Features
+- Branding under Smile Creative
+- "Talk to Kira" live demo with call interface (start/end call buttons)
+- Avatar chat interface showcasing capabilities
+
+---
+
 ## Get It Framed NI (newdevsite.co.uk/framing/)
 
 **Client**: Darren Cumberland (also runs MusicDC Group, photography, sound & light)
