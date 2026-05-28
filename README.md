@@ -29,6 +29,22 @@ Combines all Freelancer threads and work history.
 - Kira_03 hero image as landing page background
 - Sales-oriented landing page with features, how-it-works, and CTA sections
 
+### Twilio Elastic SIP Trunking (Completed 28 May 2026)
+- UK phone number acquired via Twilio: +44 333 344 3344
+- Elastic SIP Trunk created (TKb4309ade7ec0af8221d44a8e7a5b64b9, Ireland IE1 region)
+- Origination URI: sip:sip.retellai.com (routes inbound calls to Retell)
+- Termination URI: kira-smilecreative.pstn.twilio.com (allows Retell outbound via Twilio)
+- IP ACL configured with Retell IP range (18.98.16.120/30)
+- Number registered in Retell as SIP trunk number, assigned to Kira agent
+- Calls to +443333443344 now answered by Kira via Retell
+- Key fix: phone number region had to match trunk region (both Ireland IE1) - US1 mismatch caused calls to hit default Twilio webhook instead of trunk
+
+### Pending - Kira
+- Soho66 forwarding: main number (+442890993525) needs call forwarding rule to +443333443344 so customers calling the normal line get Kira
+- Time awareness: Kira's prompt references business hours but agent has no time check - needs custom tool calling timeapi.io/api/time/current/zone?timeZone=Europe/London to determine UK time before greeting
+- Call transfer: enable Kira to transfer calls to Brendan/DC live via Soho66 when caller requests a real person
+- Natural call endings: end_call tool fires abruptly - prompt needs refinement for warmer wind-down
+
 ---
 
 ## Accountant Quiz AI (accountantbelfast.co.uk)
@@ -64,11 +80,18 @@ Combines all Freelancer threads and work history.
 - Whole cards clickable, "More" buttons centred, testimonials removed
 - Nav links updated: Gallery and Prints pages linked from homepage nav + footer
 
+### May 27-28 Updates (19-task edit list from DC & Bev)
+- Homepage: hero title restyled, teal tagline added, Studio Standard rewritten with prints content, "View Gallery" button added, phone numbers separated, footer updated with full address
+- Gallery: filter buttons removed, "Our Work" label removed, spacing reduced, "Visit the Studio" + map section added after CTA
+- Prints: "Our Print Studio" section removed (moved to homepage), feature cards restyled to coloured blocks matching homepage, "Find Us" + map section added
+- All pages: Services dropdown menu added to header nav (12 service categories), consistent link styling across pages (.location-detail-inner class), hamburger menu desktop display bug fixed on gallery page
+- Service Content Questionnaire: 25-page Word document (GIF-Service-Content-Questions.docx) with 5 questions per service for all 12 categories, delivered to DC & Bev to generate 500-800 words per service page
+
 ### Pending
-- 5 replacement photos for service cards: Prints, Canvas, Photographer Services, Storybook Albums, Commercial Printing
+- Content from DC & Bev: answers to service questionnaire + one strong image per service
 - Remaining 11 service pages (copy needed from client for each)
 - WordPress conversion (agreed direction - build in static HTML first, convert to WP theme once content finalised)
-- Gallery: next/prev navigation in lightbox (will come with WP gallery plugin)
+- Gallery: real images from DC & Bev to replace stock, next/prev navigation (will come with WP gallery plugin)
 
 ### Design Notes
 - Fonts: Libre Baskerville (headings) + Inter (body)
@@ -224,4 +247,4 @@ Combines all Freelancer threads and work history.
 
 ---
 
-*Last updated: 23 May 2026*
+*Last updated: 28 May 2026*
