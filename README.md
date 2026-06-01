@@ -280,6 +280,42 @@ Combines all Freelancer threads and work history.
 
 ---
 
+## The Frame Gallery - Demo Framing Shop
+
+**URL**: https://leadsites.co.uk/gallery/shop/
+**Platform**: WordPress + WooCommerce + Astra (child theme: frame-gallery-child)
+**Server**: 185.109.170.140 (CastleHost DirectAdmin, LiteSpeed)
+
+### Design
+- Teal (#048A81) / Rose (#B5838D) colour palette
+- Libre Baskerville (headings) + Inter (body) fonts
+- "Cousin of Get It Framed NI" style per Brendan's request
+- White header, teal social icons, dark footer
+- Card-style product grid with hover effects
+
+### Products (6 demo products, 5 categories)
+- Coastal Sunrise - Framed Print (variable: 4 sizes x 4 frames = 16 variations)
+- Forest Canopy - Canvas Wrap (variable: 5 sizes)
+- Mountain Peak - Premium Framed (variable: 3 sizes x 3 frames x 3 glass = 16 variations)
+- Abstract Flow - Mounted Print (variable: 4 sizes)
+- Custom Frame Package (simple: £149)
+- Photo Slate Gift (variable: 3 sizes)
+
+### Categories
+- Framed Prints (120), Canvas Prints (121), Custom Framing (122), Mounting & Display (123), Photo Gifts (124)
+
+### Technical
+- Child theme CSS hosted on GitHub, deployed via install-theme.php
+- WC API keys: ck_EBSdG... / cs_iVGEX...
+- Currency: GBP
+- Elementor header overridden via CSS (title, background, social icons)
+
+### Status
+- COMPLETE: Theme, products, images, variations, categories, CSS styling
+- Note: install-theme.php and setup-wc-keys.php still on server (should be removed)
+
+---
+
 ## Communication
 - Primary: Freelancer.com messaging
 - Reference: This GitHub page
