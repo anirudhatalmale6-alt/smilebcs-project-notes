@@ -1,0 +1,329 @@
+/*
+Theme Name: Frame Gallery
+Theme URI: https://leadsites.co.uk/gallery/
+Template: astra
+Description: Custom framing studio shop theme - inspired by Get It Framed NI
+Author: Smile Creative
+Version: 1.0
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --teal: #048A81;
+  --teal-dark: #036B64;
+  --teal-light: #E8F5F4;
+  --rose: #B5838D;
+  --rose-light: #F5ECED;
+  --ink-deep: #454851;
+  --ink-light: #6B6E75;
+  --paper-bg: #F8F8F8;
+  --white: #FFFFFF;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--ink-deep);
+  background: var(--paper-bg);
+}
+
+h1, h2, h3, h4, h5, h6,
+.woocommerce ul.products li.product .woocommerce-loop-product__title,
+.entry-title,
+.page-title,
+.woocommerce-products-header__title {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  color: var(--ink-deep);
+}
+
+/* Header */
+.ast-primary-header, .site-header {
+  background: var(--white) !important;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.main-header-menu a, .ast-header-custom-item a {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--ink-deep) !important;
+  transition: color 0.3s ease;
+}
+
+.main-header-menu a:hover {
+  color: var(--teal) !important;
+}
+
+.site-title a, .site-title {
+  font-family: 'Libre Baskerville', serif !important;
+  color: var(--teal) !important;
+  font-weight: 700;
+}
+
+/* WooCommerce Shop Grid */
+.woocommerce ul.products {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+@media (max-width: 768px) {
+  .woocommerce ul.products {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .woocommerce ul.products {
+    grid-template-columns: 1fr;
+  }
+}
+
+.woocommerce ul.products li.product {
+  background: var(--white);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  float: none !important;
+}
+
+.woocommerce ul.products li.product:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.woocommerce ul.products li.product a img {
+  border-radius: 0;
+  margin: 0;
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+}
+
+.woocommerce ul.products li.product .woocommerce-loop-product__title {
+  font-size: 1.1rem;
+  padding: 16px 16px 4px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.woocommerce ul.products li.product .price {
+  padding: 0 16px 16px;
+  color: var(--teal);
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+}
+
+.woocommerce ul.products li.product .price del {
+  color: var(--ink-light);
+}
+
+.woocommerce ul.products li.product .button,
+.woocommerce ul.products li.product a.added_to_cart {
+  display: block;
+  background: var(--teal) !important;
+  color: var(--white) !important;
+  border: none;
+  border-radius: 0;
+  padding: 12px 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-align: center;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  transition: background 0.3s ease;
+  width: 100%;
+  margin: 0;
+}
+
+.woocommerce ul.products li.product .button:hover {
+  background: var(--teal-dark) !important;
+}
+
+/* Star ratings */
+.woocommerce ul.products li.product .star-rating {
+  margin: 8px 16px 0;
+}
+
+/* Single Product */
+.woocommerce div.product .product_title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 2rem;
+  color: var(--ink-deep);
+  margin-bottom: 8px;
+}
+
+.woocommerce div.product p.price {
+  color: var(--teal);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.woocommerce div.product .woocommerce-product-details__short-description {
+  color: var(--ink-light);
+  font-size: 1rem;
+  line-height: 1.7;
+  border-left: 3px solid var(--teal);
+  padding-left: 16px;
+  margin: 16px 0;
+}
+
+.single_add_to_cart_button,
+.woocommerce #respond input#submit.alt,
+.woocommerce a.button.alt,
+.woocommerce button.button.alt,
+.woocommerce input.button.alt {
+  background: var(--teal) !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 14px 32px !important;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.single_add_to_cart_button:hover,
+.woocommerce a.button.alt:hover,
+.woocommerce button.button.alt:hover {
+  background: var(--teal-dark) !important;
+  transform: translateY(-1px);
+}
+
+/* Variation dropdowns */
+.woocommerce div.product form.variations_form table.variations select {
+  border: 2px solid #E0E0E0;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  transition: border-color 0.3s;
+}
+
+.woocommerce div.product form.variations_form table.variations select:focus {
+  border-color: var(--teal);
+  outline: none;
+}
+
+.woocommerce div.product form.variations_form table.variations label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: var(--ink-deep);
+  font-size: 0.95rem;
+}
+
+/* Product tabs */
+.woocommerce div.product .woocommerce-tabs ul.tabs li a {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: var(--ink-light);
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li.active a {
+  color: var(--teal);
+}
+
+/* Category badges */
+.woocommerce ul.products li.product .ast-woo-product-category {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--rose);
+  padding: 0 16px;
+}
+
+/* Page titles */
+.woocommerce-products-header__title {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+}
+
+.woocommerce-result-count {
+  font-family: 'Inter', sans-serif;
+  color: var(--ink-light);
+}
+
+/* Breadcrumbs */
+.woocommerce .woocommerce-breadcrumb {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: var(--ink-light);
+}
+
+.woocommerce .woocommerce-breadcrumb a {
+  color: var(--teal);
+}
+
+/* Cart & Checkout */
+.woocommerce .cart .button,
+.woocommerce .checkout .button {
+  background: var(--teal) !important;
+  color: var(--white) !important;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+/* Footer */
+.site-footer {
+  background: var(--ink-deep) !important;
+  color: rgba(255,255,255,0.7);
+}
+
+.site-footer a {
+  color: rgba(255,255,255,0.85);
+  transition: color 0.3s;
+}
+
+.site-footer a:hover {
+  color: var(--teal);
+}
+
+/* Sale badge */
+.woocommerce span.onsale {
+  background: var(--rose) !important;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+/* Ordering dropdown */
+.woocommerce .woocommerce-ordering select {
+  border: 2px solid #E0E0E0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Quantity input */
+.woocommerce .quantity .qty {
+  border: 2px solid #E0E0E0;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Related products heading */
+.woocommerce div.product .related > h2,
+.woocommerce div.product .upsells > h2 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.5rem;
+  color: var(--ink-deep);
+}
+
+/* Content area */
+.ast-separate-container .ast-article-post,
+.ast-separate-container .ast-article-single {
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
