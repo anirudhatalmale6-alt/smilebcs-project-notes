@@ -449,18 +449,37 @@ def generate_metadata(transcript, prompt_template, client):
 
 def parse_ai_output(text):
     title = hook = tags = ""
-    for line in text.splitlines():
+    lines = text.splitlines()
+    current_field = None
+    for line in lines:
         line_stripped = line.strip()
-        if line_stripped.upper().startswith("TITLE:"):
-            title = line_stripped[6:].strip().strip('"')
-        elif line_stripped.upper().startswith("HOOK:"):
-            hook = line_stripped[5:].strip()
-        elif line_stripped.upper().startswith("TAGS:"):
-            tags = line_stripped[5:].strip()
-    if not title:
-        lines = [l.strip() for l in text.splitlines() if l.strip()]
-        if lines:
-            title = lines[0].strip('"')
+        upper = line_stripped.upper()
+        if upper.startswith("TITLE:"):
+            current_field = "title"
+            val = line_stripped[6:].strip().strip('"')
+            if val:
+                title = val
+                current_field = None
+        elif upper.startswith("HOOK:"):
+            current_field = "hook"
+            val = line_stripped[5:].strip()
+            if val:
+                hook = val
+                current_field = None
+        elif upper.startswith("TAGS:"):
+            current_field = "tags"
+            val = line_stripped[5:].strip()
+            if val:
+                tags = val
+                current_field = None
+        elif line_stripped and current_field:
+            if current_field == "title" and not title:
+                title = line_stripped.strip('"')
+            elif current_field == "hook" and not hook:
+                hook = line_stripped
+            elif current_field == "tags" and not tags:
+                tags = line_stripped
+            current_field = None
     return title, hook, tags
 
 
