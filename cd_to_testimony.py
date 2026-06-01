@@ -438,9 +438,22 @@ def generate_metadata(transcript, prompt_template, client):
         existing_tags=tags_str,
     )
 
+    system_msg = (
+        "You are a story editor for a Christian testimony platform. "
+        "You MUST respond with EXACTLY this format and nothing else:\n\n"
+        "TITLE: [your title here]\n\n"
+        "HOOK: [your hook here]\n\n"
+        "TAGS: [tag1, tag2, tag3]\n\n"
+        "Put each value on the SAME LINE as its label. "
+        "Do not add any other text, explanation, or commentary."
+    )
+
     response = client.chat.completions.create(
         model=OPENAI_MODEL,
-        messages=[{"role": "user", "content": prompt}],
+        messages=[
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": prompt},
+        ],
         temperature=0.4,
         max_tokens=500,
     )
@@ -595,10 +608,12 @@ def run_metadata_only():
 
             save_result(audio_filename, transcript, title, hook, tags, raw_ai)
             successes += 1
+            time.sleep(1.5)
 
         except Exception as e:
             logging.error("FAILED: %s — %s", txt_file, e)
             failures.append((txt_file, str(e)))
+            time.sleep(3)
             continue
 
     logging.info("")
