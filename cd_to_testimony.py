@@ -3,11 +3,13 @@ CD-to-Testimony Pipeline
 Merge multi-part MP3s → Transcribe with Whisper → Generate Title/Hook/Tags via OpenAI
 
 Usage:
-    python cd_to_testimony.py
+    python cd_to_testimony.py                  # Mode A: full pipeline (merge + Whisper + GPT)
+    python cd_to_testimony.py --metadata-only  # Mode B: skip Whisper, read existing transcripts, GPT only
 
 Requirements:
-    pip install openai-whisper pydub openai requests beautifulsoup4
-    FFmpeg must be installed and on PATH
+    Mode A: pip install openai-whisper pydub openai
+    Mode B: pip install openai  (no Whisper or pydub needed)
+    FFmpeg must be installed and on PATH (Mode A only)
 """
 
 import os
@@ -17,16 +19,15 @@ import json
 import time
 import logging
 from datetime import datetime
-from pydub import AudioSegment
-import whisper
+
 from openai import OpenAI
 
 # --------------------------
 # SETTINGS — EDIT THESE
 # --------------------------
 REFERENCE_SITE_URL = "https://hehathdone.org"
-NEW_AUDIO_FOLDER = r"G:/HeHathDone/RippedCDs"  # folder containing speaker subfolders
-OUTPUT_FOLDER = r"G:/HeHathDone/output"
+NEW_AUDIO_FOLDER = r"G:/HeHathDone/RippedCDs"
+OUTPUT_FOLDER = r"G:/HeHathDone/FirstPassAI"
 MERGED_AUDIO_FOLDER = os.path.join(OUTPUT_FOLDER, "merged_audio")
 TRANSCRIPTS_FOLDER = os.path.join(OUTPUT_FOLDER, "transcripts")
 LOG_FILE = os.path.join(OUTPUT_FOLDER, "pipeline.log")
@@ -474,25 +475,126 @@ def save_result(filename, transcript, title, hook, tags, raw_ai):
 
 
 # --------------------------
-# Main pipeline
+# Mode B: Metadata-only pipeline
 # --------------------------
-def main():
-    setup_logging()
-    logging.info("=" * 60)
-    logging.info("He Hath Done — CD-to-Testimony Pipeline")
-    logging.info("=" * 60)
+def normalise_name(name):
+    """Normalise a filename for fuzzy matching: lowercase, strip spaces/underscores/hyphens."""
+    return re.sub(r"[\s_\-]+", "", name.lower())
+
+
+def find_matching_audio(transcript_name, audio_files_map):
+    """Find the matching MP3 for a transcript, handling naming differences."""
+    norm = normalise_name(transcript_name)
+    if norm in audio_files_map:
+        return audio_files_map[norm]
+    for key, path in audio_files_map.items():
+        if norm in key or key in norm:
+            return path
+    return None
+
+
+def run_metadata_only():
+    """Mode B: Read existing transcripts, run GPT-4o for title/hook/tags only."""
+    logging.info("MODE B — Metadata-only (skipping Whisper)")
+    logging.info("Reading transcripts from: %s", TRANSCRIPTS_FOLDER)
+
+    if not os.path.isdir(TRANSCRIPTS_FOLDER):
+        logging.error("Transcripts folder not found: %s", TRANSCRIPTS_FOLDER)
+        sys.exit(1)
+
+    txt_files = sorted([f for f in os.listdir(TRANSCRIPTS_FOLDER) if f.lower().endswith(".txt")])
+    if not txt_files:
+        logging.error("No .txt files found in %s", TRANSCRIPTS_FOLDER)
+        sys.exit(1)
+
+    audio_files_map = {}
+    if os.path.isdir(MERGED_AUDIO_FOLDER):
+        for f in os.listdir(MERGED_AUDIO_FOLDER):
+            if f.lower().endswith(".mp3"):
+                audio_files_map[normalise_name(os.path.splitext(f)[0])] = f
 
     prompt_template = load_prompt_template()
+    ai_client = OpenAI(api_key=OPENAI_API_KEY)
 
-    # Merge multi-part MP3s
+    total = len(txt_files)
+    successes = 0
+    failures = []
+
+    logging.info("Found %d transcripts to process", total)
+    logging.info("")
+
+    for i, txt_file in enumerate(txt_files, 1):
+        base_name = os.path.splitext(txt_file)[0]
+        logging.info("[%d/%d] %s", i, total, base_name)
+        logging.info("-" * 40)
+
+        result_path = os.path.join(OUTPUT_FOLDER, f"{base_name}.txt")
+        if os.path.isfile(result_path):
+            logging.info("Already processed — skipping")
+            successes += 1
+            continue
+
+        try:
+            with open(os.path.join(TRANSCRIPTS_FOLDER, txt_file), "r", encoding="utf-8") as f:
+                transcript = f.read().strip()
+
+            if len(transcript.split()) < 20:
+                logging.warning("Transcript too short (%d words) — skipping", len(transcript.split()))
+                failures.append((txt_file, "Transcript too short"))
+                continue
+
+            audio_match = find_matching_audio(base_name, audio_files_map)
+            audio_filename = audio_match if audio_match else f"{base_name}.mp3"
+
+            raw_ai = generate_metadata(transcript, prompt_template, ai_client)
+            title, hook, tags = parse_ai_output(raw_ai)
+
+            if not title:
+                logging.warning("AI returned no title — saving raw output")
+                title = "(Title generation failed)"
+
+            if len(hook) > 250:
+                hook = hook[:247] + "..."
+                logging.info("  Hook trimmed to 250 chars")
+
+            save_result(audio_filename, transcript, title, hook, tags, raw_ai)
+            successes += 1
+
+        except Exception as e:
+            logging.error("FAILED: %s — %s", txt_file, e)
+            failures.append((txt_file, str(e)))
+            continue
+
+    logging.info("")
+    logging.info("=" * 60)
+    logging.info("DONE: %d/%d succeeded", successes, total)
+    if failures:
+        logging.info("FAILED (%d):", len(failures))
+        for name, reason in failures:
+            logging.info("  - %s: %s", name, reason)
+    logging.info("Transcripts   -> %s", TRANSCRIPTS_FOLDER)
+    logging.info("Output files  -> %s", OUTPUT_FOLDER)
+    logging.info("Log file      -> %s", LOG_FILE)
+    logging.info("=" * 60)
+
+
+# --------------------------
+# Mode A: Full pipeline
+# --------------------------
+def run_full_pipeline():
+    """Mode A: Merge + Whisper + GPT (original pipeline)."""
+    from pydub import AudioSegment
+    import whisper
+
+    logging.info("MODE A — Full pipeline (merge + Whisper + GPT)")
+
+    prompt_template = load_prompt_template()
     audio_files = group_and_merge(NEW_AUDIO_FOLDER)
 
-    # Load Whisper model once
     logging.info("Loading Whisper model '%s' (this may take a moment)...", WHISPER_MODEL)
     whisper_model = whisper.load_model(WHISPER_MODEL)
     logging.info("Whisper model loaded.")
 
-    # Initialise OpenAI client
     ai_client = OpenAI(api_key=OPENAI_API_KEY)
 
     os.makedirs(TRANSCRIPTS_FOLDER, exist_ok=True)
@@ -540,7 +642,6 @@ def main():
             failures.append((filename, str(e)))
             continue
 
-    # Summary
     logging.info("")
     logging.info("=" * 60)
     logging.info("DONE: %d/%d succeeded", successes, total)
@@ -553,6 +654,23 @@ def main():
     logging.info("Output files  -> %s", OUTPUT_FOLDER)
     logging.info("Log file      -> %s", LOG_FILE)
     logging.info("=" * 60)
+
+
+# --------------------------
+# Main
+# --------------------------
+def main():
+    metadata_only = "--metadata-only" in sys.argv
+
+    setup_logging()
+    logging.info("=" * 60)
+    logging.info("He Hath Done — CD-to-Testimony Pipeline")
+    logging.info("=" * 60)
+
+    if metadata_only:
+        run_metadata_only()
+    else:
+        run_full_pipeline()
 
 
 if __name__ == "__main__":
