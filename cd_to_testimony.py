@@ -250,6 +250,20 @@ TRANSCRIPT
 {transcript}"""
 
 
+TIMESTAMP_PATTERN = re.compile(r"\[?\d{1,2}:\d{2}(?::\d{2})?\]?\s*")
+
+
+def strip_timestamps(text):
+    """Remove [00:02], [01:16:05] style timestamps from transcript text."""
+    lines = text.splitlines()
+    cleaned = []
+    for line in lines:
+        stripped = TIMESTAMP_PATTERN.sub("", line).strip()
+        if stripped:
+            cleaned.append(stripped)
+    return " ".join(cleaned)
+
+
 def setup_logging():
     os.makedirs(OUTPUT_FOLDER, exist_ok=True)
     logging.basicConfig(
@@ -536,7 +550,10 @@ def run_metadata_only():
 
         try:
             with open(os.path.join(TRANSCRIPTS_FOLDER, txt_file), "r", encoding="utf-8") as f:
-                transcript = f.read().strip()
+                raw_transcript = f.read().strip()
+
+            transcript = strip_timestamps(raw_transcript)
+            logging.info("  %d words (timestamps stripped)", len(transcript.split()))
 
             if len(transcript.split()) < 20:
                 logging.warning("Transcript too short (%d words) — skipping", len(transcript.split()))
