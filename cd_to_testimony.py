@@ -27,9 +27,9 @@ from openai import OpenAI
 # --------------------------
 REFERENCE_SITE_URL = "https://hehathdone.org"
 NEW_AUDIO_FOLDER = r"G:/HeHathDone/RippedCDs"
-OUTPUT_FOLDER = r"G:/HeHathDone/FirstPassAI"
-MERGED_AUDIO_FOLDER = os.path.join(OUTPUT_FOLDER, "merged_audio")
-TRANSCRIPTS_FOLDER = os.path.join(OUTPUT_FOLDER, "transcripts")
+OUTPUT_FOLDER = r"G:/HeHathDone/FirstPassAI/aititles"
+MERGED_AUDIO_FOLDER = r"G:/HeHathDone/FirstPassAI/merged_audio"
+TRANSCRIPTS_FOLDER = r"G:/HeHathDone/FirstPassAI/transcripts"
 LOG_FILE = os.path.join(OUTPUT_FOLDER, "pipeline.log")
 
 WHISPER_MODEL = "medium"
