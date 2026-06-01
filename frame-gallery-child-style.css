@@ -327,3 +327,48 @@ h1, h2, h3, h4, h5, h6,
   border-radius: 8px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.04);
 }
+
+/* Override site title */
+.site-title a,
+.ast-site-title-wrap .site-title a {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+.site-title a::after,
+.ast-site-title-wrap .site-title a::after {
+  content: 'The Frame Gallery';
+  font-size: 1.6rem;
+  font-family: 'Libre Baskerville', serif !important;
+  color: var(--teal) !important;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Override site tagline */
+.site-description {
+  font-size: 0 !important;
+}
+.site-description::after {
+  content: 'Custom Picture Framing & Fine Art Prints';
+  font-size: 0.85rem;
+  font-family: 'Inter', sans-serif;
+  color: var(--ink-light);
+  font-weight: 400;
+}
+
+/* Fix header to white */
+.ast-primary-header,
+.site-header,
+.ast-above-header-wrap,
+.ast-above-header,
+.ast-main-header-wrap {
+  background: var(--white) !important;
+}
+
+.ast-above-header .ast-builder-layout-element,
+.ast-above-header .ast-social-icon-image-wrap {
+  color: var(--ink-light) !important;
+}
+.ast-above-header .ast-social-icon-image-wrap svg {
+  fill: var(--ink-light) !important;
+}
