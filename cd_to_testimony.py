@@ -35,8 +35,9 @@ LOG_FILE = os.path.join(OUTPUT_FOLDER, "pipeline.log")
 WHISPER_MODEL = "medium"
 WHISPER_LANGUAGE = "en"
 
-OPENAI_MODEL = "gpt-4o"
+OPENAI_MODEL = "gpt-4o-mini"  # Mini has higher rate limits and works great for titles/hooks
 OPENAI_API_KEY = "YOUR_API_KEY_HERE"  # Paste your OpenAI API key here
+MAX_TRANSCRIPT_WORDS = 3000  # Truncate long transcripts to stay within rate limits
 
 PROMPT_FILE = None  # Set to path of Prompt.txt to load from file, or None to use built-in
 
@@ -264,6 +265,20 @@ def strip_timestamps(text):
     return " ".join(cleaned)
 
 
+def truncate_transcript(text, max_words=None):
+    """Keep the first 80% and last 20% of allowed words to preserve the story arc."""
+    if max_words is None:
+        max_words = MAX_TRANSCRIPT_WORDS
+    words = text.split()
+    if len(words) <= max_words:
+        return text
+    head_count = int(max_words * 0.8)
+    tail_count = max_words - head_count
+    head = " ".join(words[:head_count])
+    tail = " ".join(words[-tail_count:])
+    return head + "\n\n[... middle section trimmed for processing ...]\n\n" + tail
+
+
 def setup_logging():
     os.makedirs(OUTPUT_FOLDER, exist_ok=True)
     logging.basicConfig(
@@ -432,9 +447,10 @@ def transcribe_audio(file_path, model):
 # Step 3: Generate Title / Hook / Tags via OpenAI
 # --------------------------
 def generate_metadata(transcript, prompt_template, client):
+    trimmed = truncate_transcript(transcript)
     tags_str = "\n".join(f"- {t}" for t in EXISTING_TAGS)
     prompt = prompt_template.format(
-        transcript=transcript,
+        transcript=trimmed,
         existing_tags=tags_str,
     )
 
@@ -448,16 +464,28 @@ def generate_metadata(transcript, prompt_template, client):
         "Do not add any other text, explanation, or commentary."
     )
 
-    response = client.chat.completions.create(
-        model=OPENAI_MODEL,
-        messages=[
-            {"role": "system", "content": system_msg},
-            {"role": "user", "content": prompt},
-        ],
-        temperature=0.4,
-        max_tokens=500,
-    )
-    return response.choices[0].message.content.strip()
+    max_retries = 5
+    for attempt in range(max_retries):
+        try:
+            response = client.chat.completions.create(
+                model=OPENAI_MODEL,
+                messages=[
+                    {"role": "system", "content": system_msg},
+                    {"role": "user", "content": prompt},
+                ],
+                temperature=0.4,
+                max_tokens=500,
+            )
+            return response.choices[0].message.content.strip()
+        except Exception as e:
+            err_msg = str(e).lower()
+            if "rate_limit" in err_msg or "429" in err_msg:
+                wait_time = 20 * (attempt + 1)
+                logging.warning("Rate limit hit — waiting %ds (attempt %d/%d)", wait_time, attempt + 1, max_retries)
+                time.sleep(wait_time)
+            else:
+                raise
+    raise Exception("Rate limit: gave up after %d retries" % max_retries)
 
 
 def parse_ai_output(text):
@@ -585,7 +613,11 @@ def run_metadata_only():
                 raw_transcript = f.read().strip()
 
             transcript = strip_timestamps(raw_transcript)
-            logging.info("  %d words (timestamps stripped)", len(transcript.split()))
+            word_count = len(transcript.split())
+            if word_count > MAX_TRANSCRIPT_WORDS:
+                logging.info("  %d words (timestamps stripped, will truncate to %d for AI)", word_count, MAX_TRANSCRIPT_WORDS)
+            else:
+                logging.info("  %d words (timestamps stripped)", word_count)
 
             if len(transcript.split()) < 20:
                 logging.warning("Transcript too short (%d words) — skipping", len(transcript.split()))
