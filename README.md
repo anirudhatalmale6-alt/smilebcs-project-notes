@@ -93,10 +93,50 @@ Combines all Freelancer threads and work history.
 - WordPress conversion (agreed direction - build in static HTML first, convert to WP theme once content finalised)
 - Gallery: real images from DC & Bev to replace stock, next/prev navigation (will come with WP gallery plugin)
 
+### Future - Online Shop
+- DC has expressed interest in adding an online shop to Get It Framed
+- Reference site: lauraflynn.co.uk (Wix-based art/print shop - prints, canvas, framed work, merchandise)
+- Will be built on WordPress/WooCommerce to keep everything on one platform
+- On hold until current site content and service pages are finalised
+
 ### Design Notes
 - Fonts: Libre Baskerville (headings) + Inter (body)
 - Colours: --teal #048A81, --rose #B5838D, --ink-deep #454851, --paper-bg #F1F2F6
 - Service page template: hero banner (200px), two-column intro, feature cards with images, CTA, footer
+
+---
+
+## He Hath Done - CD-to-Testimony Pipeline
+
+**For**: Brendan
+**Source**: https://github.com/anirudhatalmale6-alt/smilebcs-project-notes/blob/master/cd_to_testimony.py
+**Website**: hehathdone.org
+
+### What It Does
+- Batch processes ripped CD testimonies (84 CDs, one per speaker)
+- Merges multi-track CD folders into single MP3 per speaker
+- Transcribes audio using local Whisper model (medium, CPU)
+- Generates cinematic title, hook (250 chars), and tags via GPT-4o
+- Outputs: merged audio, transcripts, metadata files with title/hook/tags
+- Skips already-processed files (resume-safe)
+
+### Setup
+- Runs on Brendan's Windows PC (HP-HighSpec)
+- Python 3.14, FFmpeg 16.1.0 (essentials build)
+- Input: G:\HeHathDone\RippedCDs (84 speaker subfolders)
+- Output: G:\HeHathDone\FirstPassAI
+- OpenAI API key configured locally (not in repo)
+
+### Related - TranscriptionService Web App
+- GitHub: github.com/BenniFX/TranscriptionService
+- FastAPI + React + MongoDB web app for ongoing YouTube/audio transcription
+- Has user auth, YouTube extraction (yt-dlp), cloud Whisper API, export to PDF/DOCX/TXT
+- Missing: title/hook/tags AI generation (to be merged from CD pipeline later)
+- Plan: CD script for backlog, then enhance web app with AI metadata for ongoing use
+
+### Status (28 May 2026)
+- Script running, merge phase complete, transcription in progress
+- All dependencies installed (openai-whisper, pydub, openai, audioop-lts)
 
 ---
 
@@ -247,4 +287,4 @@ Combines all Freelancer threads and work history.
 
 ---
 
-*Last updated: 28 May 2026*
+*Last updated: 1 June 2026*
