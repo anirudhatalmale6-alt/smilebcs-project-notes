@@ -138,13 +138,34 @@ Combines all Freelancer threads and work history.
 - Script running, merge phase complete, transcription in progress
 - All dependencies installed (openai-whisper, pydub, openai, audioop-lts)
 
+### Report an Issue Form (June 2026)
+- Standalone PHP form at hehathdone.org/report-issue.php
+- Issue type dropdown, page/testimony field, details textarea, optional name/email
+- Honeypot spam protection, PHP mail() to brendan@keygrowth.co.uk
+- Styled to match HHD dark/gold theme (no WordPress dependency)
+- Footer link added in theme footer.php
+
+---
+
+## Paul McKay Building & Plastering (paulmckaybuildingandplastering.co.uk)
+
+**For**: Client via Brendan (CastleHost DNS)
+
+### Google Search Console & SEO Fix (June 2026)
+- Fixed domain verification: TXT record had full domain name in Name field instead of "@"
+- Discovered sitewide "Discourage search engines from indexing this site" was checked in WordPress Settings > Reading
+- This was blocking ALL pages from Google indexing (noindex meta tag on every page)
+- Unchecked the setting, submitted sitemap and individual pages for indexing
+- Wrote client-facing explanation of the issue and resolution
+
 ---
 
 ## ContactLocal (contactlocal.co.uk)
 
 ### Cards Live
-- **DC (Darren Cumberland)**: dc.contactlocal.co.uk - Call Studio (028 2588 2706), Call Mobile (077 6384 2761), Email (obfuscated via JS), Studio accordion
+- **DC (Darren Cumberland)**: dc.contactlocal.co.uk - Call Studio (028 2588 2706), Call Mobile (077 6384 2761), Email (obfuscated via JS), Studio accordion, QR code toggle
 - **Kerry's Florist**: kerry.contactlocal.co.uk - reference card for accordion pattern
+- **Pendyprints (Sarah Pendleton-Sharp)**: contactlocal.co.uk/pendyprints/ - Floral artist, Portglenone. Hero painting with name/tagline overlay, services section, WhatsApp (07888 733389), Email, Facebook, Instagram buttons, Save Contact vCard, QR code toggle. Purple/plum theme (Playfair Display + Inter). Added June 2026
 
 ### Platform
 - Template 01 uploaded to /templates/01/, embedded as live iframe in hero
@@ -323,4 +344,4 @@ Combines all Freelancer threads and work history.
 
 ---
 
-*Last updated: 1 June 2026*
+*Last updated: 17 June 2026*
